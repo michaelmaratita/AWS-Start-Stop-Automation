@@ -6,6 +6,7 @@ ec2_client = boto3.client('ec2')
 cloudwatch_client = boto3.client('cloudwatch')
 sns_client = boto3.client('sns')
 
+
 def main():
     disable_alarm()
     original_list = describe_lists()
