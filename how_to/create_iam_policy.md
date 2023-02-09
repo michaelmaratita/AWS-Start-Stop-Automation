@@ -4,21 +4,21 @@
  1. Select the Identity and Access Management (IAM) Service
  2. Under Access Management > Select **Policies**
 
-<img src="source/images/iam/IAM_1.PNG" width=30% height=30%/> 
+<img src="/source/images/iam/IAM_1.PNG" width=30% height=30%> 
  
  3. Select **Create Policy**
 
-[source/images/iam/IAM_2.png](https://github.com/tikit-tm/AWS-Start-Stop-Automation/blob/5cdaf73e7d08b43f8248bb33423289693a17a435/source/images/iam/IAM_1.PNG)
+<img src="/source/images/iam/IAM_2.png" width=80% height=80%>
    
  4. Within the Visual Editor, Select the **Choose a service**
  
  5. Search **Lambda**
  
-<img src="source/images/iam/IAM_3.png" width=70% height=70%>
+<img src="/source/images/iam/IAM_3.png" width=70% height=70%>
  
  6. Under the **Actions** Pane, Expand **Write** and Select &#x2611;**InvokeFunction**
 
-<img src="source/images/iam/IAM_4.png" width=80% height=80%>
+<img src="/source/images/iam/IAM_4.png" width=80% height=80%>
 
 
  7. Under **Resources** Pane, Select the &#x2611; **Any in this account**
@@ -26,7 +26,7 @@
  
  > **__NOTE:__** This will be modified later for fine-grained permissions
  
-<img src="source/images/iam/IAM_5.png" width=80% height=80%>
+<img src="/source/images/iam/IAM_5.png" width=80% height=80%>
  
  8. Select **Next: Tags**
  9. Add a tag if you would like, e.g. **Key = Lambda | Value: InvokeFunction**
