@@ -26,7 +26,7 @@
     - Select **Greater/Equal** 
     - Enter Value **1**
     - Select **Next**
-<img src="" width=50%>
+<img src="/source/images/cloudwatch/cw_11.PNG" width=50%>
 
 **8**. Under **Notification**
     - Select **In alarm** radio button
