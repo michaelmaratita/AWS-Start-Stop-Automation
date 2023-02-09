@@ -17,7 +17,7 @@
 
 **6**. Select **`Per-Instance Metrics`**
 <img src="/source/images/cloudwatch/cw_4.png">
-- Search for the EC2 Instance name, e.g. **AEDVECOMWSSBM01**
+- Search for the EC2 Instance name, e.g. **Test-Server01**
 - Select the Appropriate Metric associated with the EC2 instace, e.g. **StatusCheckFailed**
 - Select **`Select metric`**
 <img src="/source/images/cloudwatch/cw_5.png">
