@@ -1,7 +1,7 @@
 # AWS EC2 Start/Stop Automation
 **Lambda scripts for automated ec2 start and stop functions**
 
-<img src="" width=60% height=50%>
+<img src="source/images/iam/lambda_flow.png" width=60% height=50%>
  
  
 ## Table of Contents
