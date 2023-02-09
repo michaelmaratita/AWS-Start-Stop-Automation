@@ -1,4 +1,4 @@
-# Configuring IAM Policy for AWS Lambda Function
+# <img align="center" src="/source/images/logos/iam_policy.PNG" width=10%>Configuring IAM Policy for AWS Lambda Function
  
  ## IAM Policy
  1. Select the Identity and Access Management (IAM) Service
