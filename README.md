@@ -9,8 +9,14 @@
 - [Create SNS Topic]()
 - [Create IAM Policy](how_to/create_iam_policy.md)
 - [Create IAM Role](how_to/create_iam_role.md)
+- [Creating EC2 Alarms]()
 
 ### Creating Lambda Functions
 - [Create Lambda Function (Start Database EC2)]()
 - [Create Lambda Function (Start Application EC2)]()
 - [Create Lambda Function (Stop EC2)]()
+- [Create Step Functions for Phased Startup]()
+
+### Creating EventBridge Schedules
+- [Create Start Schedule]()
+- [Create Stop Schedule]()
