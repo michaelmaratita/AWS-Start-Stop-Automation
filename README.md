@@ -1,10 +1,11 @@
 # AWS EC2 Start/Stop Automation
 
-**Lambda scripts for automated ec2 start and stop functions**
 
+[**Start EC2 Flow Diagram**](/source/images/lambda_startup_diagram.PNG)
 <img src="/source/images/lambda_startup_diagram.PNG">
-<img src="/source/images/lambda_shutdown_diagram.png">
 
+[**Stop EC2 Flow Diagram**](/source/images/lambda_startup_diagram.PNG)
+<img src="/source/images/lambda_shutdown_diagram.png">
 
 ## Table of Contents
 - [Use Case]()
