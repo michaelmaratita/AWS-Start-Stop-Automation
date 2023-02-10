@@ -31,3 +31,7 @@
 
 [<img align="center" src="/source/images/logos/Step_Functions_Logo.PNG" width=4% height=4%>](how_to/step_functions/step_functions_config.md)
 [**Step Functions**](how_to/step_functions/step_functions_config.md)
+
+## More Resources
+- [boto3](https://github.com/boto/boto3#readme)
+- [License](LICENSE)
