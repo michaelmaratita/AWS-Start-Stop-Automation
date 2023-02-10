@@ -2,7 +2,7 @@
 
 **Lambda scripts for automated ec2 start and stop functions**
 
-<img src="source/images/lambda_flow.png">
+<img src="">
 
 ## Table of Contents
 - [AWS Login]()
