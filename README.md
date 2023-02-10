@@ -28,5 +28,5 @@
 [<img align="center" src="/source/images/logos/SNS_logo.PNG" width=4% height=4%>](how_to/sns/sns_config.md)
 [**SNS**](how_to/sns/sns_config.md)
 
-[<img align="center" src="/source/images/logos/Step_Functions_Logo.PNG" width=4% height=4%>](how_to/step_functions/step_function_config.md)
+[<img align="center" src="/source/images/logos/Step_Functions_Logo.PNG" width=4% height=4%>](how_to/step_functions/step_functions_config.md)
 [**Step Functions**](how_to/step_functions/step_function_config.md)
