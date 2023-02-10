@@ -1,4 +1,4 @@
-# <img align="center" src="/source/images/logos/CW_alert.png" width=10% height=10%> Creating CloudWatch EC2 Alarms
+# <p align="center"><img align="center" src="/source/images/logos/CW_alert.png" width=10% height=10%> Creating CloudWatch EC2 Alarms</p>
 
 **1**. Select the **CloudWatch** service
 
