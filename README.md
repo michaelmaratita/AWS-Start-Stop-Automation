@@ -3,8 +3,8 @@
 **Lambda scripts for automated ec2 start and stop functions**
 
 ## Table of Contents
-- [Lambda Startup Flow-Diagram]()
-- [Lambda Shutdown Flow-Diagram]()
+- [Lambda Startup Flow-Diagram](/source/images/lambda_shutdown_diagram.png)
+- [Lambda Shutdown Flow-Diagram](/source/images/lambda_startup_diagram.PNG)
 - [Use Case]()
 - [How It Works]()
 - [Lambda Function Breakdown]()
