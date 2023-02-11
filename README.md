@@ -7,7 +7,7 @@
 ## Table of Contents
 - [How It Works](/source/docs/flowdiagram.md)
   - [Start Up](/source/docs/flowdiagram.md#start-up)
-  - [Start Up](/source/docs/flowdiagram.md#shutdown)
+  - [Shutdown](/source/docs/flowdiagram.md#shutdown)
 - [Lambda Function Breakdown]()
 
 ## Configurations
