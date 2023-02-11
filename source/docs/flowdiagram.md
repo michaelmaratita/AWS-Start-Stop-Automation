@@ -51,7 +51,7 @@
 >    - 2.4.2. Write CloudWatch Alarms: Name, ActionsEnabled Status to CloudWatch Logs
 >    - 2.4.3. Enable CloudWatch Alarms where ***ActionsEnabled == False***
 - if **fail**:
-> NOTE: If 2.1.5 or 2.3.5 return **fail** variable, Lambda function stops any additional phases and completes steps 2.1.7 or 2.3.7; depending on where the failure occurred. Step Functions will not continue to the next Step in the process.
+> NOTE: If 2.1.5 or 2.3.5 return **fail** variable, Lambda function stops any additional Phase Start ups and completes steps 2.1.7 or 2.3.7; depending on where the failure occurred. Step Functions will not continue to the next Step in the process.
 
 | Phase | Environment | Server Type |
 |-------|-------------|-------------|
