@@ -53,6 +53,9 @@
 - if **fail**:
 > NOTE: If 2.1.5 or 2.3.5 return **fail** variable, Lambda function stops any additional Phase Start ups and completes steps 2.1.7 or 2.3.7; depending on where the failure occurred. Step Functions will not continue to the next Step in the process.
 
+|Startup Table|
+|-------------|
+
 | Phase | Environment | Server Type |
 |-------|-------------|-------------|
 | Phase 1 | Development, Test, Pre-Production | Database |
