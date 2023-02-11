@@ -8,7 +8,7 @@
 - [How It Works](/source/docs/flowdiagram.md)
   - [Start Up](/source/docs/flowdiagram.md#start-up)
   - [Shutdown](/source/docs/flowdiagram.md#shutdown)
-- [Lambda Function Breakdown]()
+- [Lambda Function Code Breakdown]()
 
 ## Configurations
 
