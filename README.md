@@ -6,6 +6,7 @@
 
 ## Table of Contents
 - [How It Works](/source/docs/flowdiagram.md)
+  - [Start Up](/source/docs/flowdiagram.md#start-up)
 - [Lambda Function Breakdown]()
 
 ## Configurations
