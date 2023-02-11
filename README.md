@@ -35,3 +35,4 @@
 ## More Resources
 - [Boto3](https://github.com/boto/boto3#readme)
 - [License](LICENSE)
+- [Build AWS Diagrams](https://www.diagrams.net/)
