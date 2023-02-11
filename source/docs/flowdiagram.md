@@ -73,5 +73,5 @@
 | Phase 5 | Test | Database |
 | Phase 6 | Pre-Production | Database |
 
-[**Stop EC2 Flow Diagram**](/source/images/lambda_startup_diagram.PNG)
-<img src="/source/images/lambda_shutdown_diagram.png">
+[**Stop EC2 Flow Diagram**](/source/images/lambda_startup_diagram1.PNG)
+<img src="/source/images/lambda_shutdown_diagram1.png">
