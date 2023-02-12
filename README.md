@@ -33,6 +33,6 @@
 [**Step Functions**](how_to/step_functions/step_functions_config.md)
 
 ## More Resources
-- [Boto3](https://github.com/boto/boto3#readme)
-- [License](LICENSE)
-- [Build AWS Diagrams](https://www.diagrams.net/)
+[<img src="https://img.shields.io/badge/AWS%20SDK-Boto3-blue">](https://github.com/boto/boto3#readme)
+[<img src="https://img.shields.io/badge/license-Apache%202.0-blue">](LICENSE)
+[<img src="https://img.shields.io/badge/self-diagrams-blue">](https://www.diagrams.net/)
