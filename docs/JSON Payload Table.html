@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Step Function State Table</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 50px;
+    }
+    td, th {
+      border: 1px solid #ccc;
+      padding: 10px;
+      vertical-align: top;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    pre {
+      background-color: #f9f9f9;
+      padding: 10px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    code {
+      font-family: Consolas, monospace;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Step Function States</h2>
+<table>
+  <tr>
+    <th>Step Function State</th>
+    <th>JSON Payload</th>
+    <th>Input Values</th>
+    <th>Output Values</th>
+  </tr>
+
+  <tr>
+    <td>Development App Servers</td>
+    <td><pre><code>{
+  "phase_number": 0,
+  "next_phase": SEE INPUT --->,
+  "action": SEE INPUT --->,
+  "cw_log_phase": SEE INPUT --->,
+  "send_mail": false
+}</code></pre></td>
+    <td><pre><code>START Inputs:
+"next_phase": "next_phase.$",
+"action": "start",
+"cw_log_phase": "starting development app servers"
+
+STOP Inputs:
+"next_phase": true,
+"action": "stop",
+"cw_log_phase": "stopping development app servers"</code></pre></td>
+    <td><pre><code>START Outputs:
+{
+  "start_dev": "{% $states.result.Payload.next_phase %}",
+  "dev_server_type": "application",
+  "dev_db_initial_state": "{% $states.input.initial_state %}",
+  "dev_app_initial_state": "{% $states.result.Payload.initial_state %}"
+}</code></pre></td>
+  </tr>
+
+  <tr>
+    <td>Test App Servers</td>
+    <td><pre><code>{
+  "phase_number": 1,
+  "next_phase": SEE INPUT --->,
+  "action": SEE INPUT --->,
+  "cw_log_phase": SEE INPUT --->,
+  "send_mail": false
+}</code></pre></td>
+    <td><pre><code>START Inputs:
+"next_phase": "next_phase.$",
+"action": "start",
+"cw_log_phase": "starting test app servers"
+
+STOP Inputs:
+"next_phase": true,
+"action": "stop",
+"cw_log_phase": "stopping test app servers"</code></pre></td>
+    <td><pre><code>START Outputs:
+{
+  "start_test": "{% $states.result.Payload.next_phase %}",
+  "test_server_type": "application",
+  "test_db_initial_state": "{% $states.input.initial_state %}",
+  "test_app_initial_state": "{% $states.result.Payload.initial_state %}"
+}</code></pre></td>
+  </tr>
+
+  <tr>
+    <td>Pre-Production App Servers</td>
+    <td><pre><code>{
+  "phase_number": 2,
+  "next_phase": SEE INPUT --->,
+  "action": SEE INPUT --->,
+  "cw_log_phase": SEE INPUT --->,
+  "send_mail": false
+}</code></pre></td>
+    <td><pre><code>START Inputs:
+"next_phase": "next_phase.$",
+"action": "start",
+"cw_log_phase": "starting preprod app servers"
+
+STOP Inputs:
+"next_phase": true,
+"action": "stop",
+"cw_log_phase": "stopping preprod app servers"</code></pre></td>
+    <td><pre><code>START Outputs:
+{
+  "start_preprod": "{% $states.result.Payload.next_phase %}",
+  "preprod_server_type": "application",
+  "preprod_db_initial_state": "{% $states.input.initial_state %}",
+  "preprod_app_initial_state": "{% $states.result.Payload.initial_state %}"
+}</code></pre></td>
+  </tr>
+
+  <tr>
+    <td>Development DB Servers</td>
+    <td><pre><code>{
+  "phase_number": 3,
+  "next_phase": SEE INPUT --->,
+  "action": SEE INPUT --->,
+  "cw_log_phase": SEE INPUT --->,
+  "send_mail": false
+}</code></pre></td>
+    <td><pre><code>START Inputs:
+"next_phase": true,
+"action": "start",
+"cw_log_phase": "starting development db servers"
+
+STOP Inputs:
+"next_phase": "next_phase.$",
+"action": "stop",
+"cw_log_phase": "stopping development db servers"</code></pre></td>
+    <td><pre><code>STOP Outputs:
+{
+  "stop_dev": "{% $states.result.Payload.next_phase %}",
+  "dev_server_type": "database",
+  "dev_db_initial_state": "{% $states.result.Payload.initial_state %}",
+  "dev_app_initial_state": "{% $states.input.initial_state %}"
+}</code></pre></td>
+  </tr>
+
+  <tr>
+    <td>Test DB Servers</td>
+    <td><pre><code>{
+  "phase_number": 4,
+  "next_phase": SEE INPUT --->,
+  "action": SEE INPUT --->,
+  "cw_log_phase": SEE INPUT --->,
+  "send_mail": false
+}</code></pre></td>
+    <td><pre><code>START Inputs:
+"next_phase": true,
+"action": "start",
+"cw_log_phase": "starting test db servers"
+
+STOP Inputs:
+"next_phase": "next_phase.$"
+"action": "stop",
+"cw_log_phase": "stopping test db servers"</code></pre></td>
+    <td><pre><code>STOP Outputs:
+{
+  "stop_test": "{% $states.result.Payload.next_phase %}",
+  "test_server_type": "database",
+  "test_db_initial_state": "{% $states.result.Payload.initial_state %}",
+  "test_app_initial_state": "{% $states.input.initial_state %}"
+}</code></pre></td>
+  </tr>
+
+  <tr>
+    <td>Pre-Prooduction DB Servers</td>
+    <td><pre><code>{
+  "phase_number": 5,
+  "next_phase": SEE INPUT --->,
+  "action": SEE INPUT --->,
+  "cw_log_phase": SEE INPUT --->,
+  "send_mail": false
+}</code></pre></td>
+    <td><pre><code>START Inputs:
+"next_phase": true,
+"action": "start",
+"cw_log_phase": "starting preprod db servers"
+
+STOP Inputs:
+"next_phase": "next_phase.$",
+"action": "stop",
+"cw_log_phase": "stopping preprod db servers"</code></pre></td>
+    <td><pre><code>STOP Outputs:
+{
+  "stop_preprod": "{% $states.result.Payload.next_phase %}",
+  "preprod_server_type": "database",
+  "preprod_db_initial_state": "{% $states.result.Payload.initial_state %}",
+  "preprod_app_initial_state": "{% $states.input.initial_state %}"
+}</code></pre></td>
+  </tr>
+</table>
+
+<h2>Send Email Function</h2>
+<table>
+  <tr>
+    <th>Function</th>
+    <th>JSON Payload</th>
+    <th>Start</th>
+    <th>Stop</th>
+  </tr>
+  <tr>
+    <td>Send Email</td>
+    <td><pre><code>{
+  "send_mail": true,
+  "subject": SEE INPUT --->,
+  "dap_state": "{% $states.input.dev_app_initial_state %}",
+  "tap_state": "{% $states.input.test_app_initial_state %}",
+  "pap_state": "{% $states.input.preprod_app_initial_state %}",
+  "ddb_state": "{% $states.input.dev_db_initial_state %}",
+  "tdb_state": "{% $states.input.test_db_initial_state %}",
+  "pdb_state": "{% $states.input.preprod_db_initial_state %}"
+}</code></pre></td>
+    <td><pre><code>START SUCCESS:
+"subject": "START STATUS: SUCCESS"
+
+SUCCESS IF THESE CONDITIONS ARE TRUE:
+(($states.input.start_dev) = (true) and ($states.input.dev_server_type) = ("application") and ($states.input.start_test) = (true) and ($states.input.test_server_type) = ("application") and ($states.input.start_preprod) = (true) and ($states.input.preprod_server_type) = ("application"))
+
+START FAIL (DEFAULT RULE):
+"subject": "START STATUS: ABORTED"</code></pre></td>
+    <td><pre><code>STOP SUCCESS:
+"subject": "START STATUS: SUCCESS"
+
+SUCCESS IF THESE CONDITIONS ARE TRUE:
+(($states.input.start_dev) = (true) and ($states.input.dev_server_type) = ("application") and ($states.input.start_test) = (true) and ($states.input.test_server_type) = ("application") and ($states.input.start_preprod) = (true) and ($states.input.preprod_server_type) = ("application"))
+
+STOP FAIL (DEFAULT RULE):
+"subject": "START STATUS: SUCCESS"</code></pre></td>
+  </tr>
+</table>
+
+</body>
+</html>
