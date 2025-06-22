@@ -2,7 +2,7 @@
 
 ## Development App Servers:
 ### JSON Payload Format
-```json
+```JSON
 {
   "phase_number": 0,
   "next_phase": SEE INPUT,
@@ -37,7 +37,7 @@ START Outputs:
 
 ## Test App Servers:
 ### JSON Payload Format
-```json
+```JSON
 {
   "phase_number": 1,
   "next_phase": SEE INPUT,
@@ -72,7 +72,7 @@ START Outputs:
 
 ## Pre-Production App Servers:
 ### JSON Payload Format
-```json
+```JSON
 {
   "phase_number": 2,
   "next_phase": SEE INPUT,
@@ -107,7 +107,7 @@ START Outputs:
 
 ## Development DB Servers:
 ### JSON Payload Format
-```json
+```JSON
 {
   "phase_number": 3,
   "next_phase": SEE INPUT,
@@ -142,7 +142,7 @@ STOP Outputs:
 
 ## Test DB Servers:
 ### JSON Payload Format
-```json
+```JSON
 {
   "phase_number": 4,
   "next_phase": SEE INPUT,
@@ -177,7 +177,7 @@ STOP Outputs:
 
 ## Pre-Production DB Servers:
 ### JSON Payload Format
-```json
+```JSON
 {
   "phase_number": 5,
   "next_phase": SEE INPUT,
@@ -209,3 +209,116 @@ STOP Outputs:
   "preprod_app_initial_state": "{% $states.input.initial_state %}"
 }
 ```
+
+## Send EMAIL State:
+### Format:
+```JSON
+
+{
+  "send_mail": true,
+  "subject": SEE INPUT --->,
+  "dap_state": "{% $states.input.dev_app_initial_state %}",
+  "tap_state": "{% $states.input.test_app_initial_state %}",
+  "pap_state": "{% $states.input.preprod_app_initial_state %}",
+  "ddb_state": "{% $states.input.dev_db_initial_state %}",
+  "tdb_state": "{% $states.input.test_db_initial_state %}",
+  "pdb_state": "{% $states.input.preprod_db_initial_state %}"
+}
+```
+
+### Start:
+```JSON
+START SUCCESS:
+"subject": "START STATUS: SUCCESS"
+
+SUCCESS IF THESE CONDITIONS ARE TRUE:
+"(($states.input.start_dev) = (true)" and
+"($states.input.dev_server_type) = ('application')" and
+"($states.input.start_test) = (true)" and
+"($states.input.test_server_type) = ('application')" and
+"($states.input.start_preprod) = (true)" and
+"($states.input.preprod_server_type) = ('application'))"
+
+START FAIL (DEFAULT RULE):
+"subject": "START STATUS: ABORTED"
+
+```
+### Stop:
+```JSON
+STOP SUCCESS:
+"subject": "SHUTDOWN STATUS: SUCCESS"
+
+SUCCESS IF THESE CONDITIONS ARE TRUE:
+"(($states.input.start_dev) = (true)" and
+"($states.input.dev_server_type) = ('database')" and
+"($states.input.start_test) = (true)" and
+"($states.input.test_server_type) = ('database')" and
+"($states.input.start_preprod) = (true)" and
+"($states.input.preprod_server_type) = ('database'))"
+
+STOP FAIL (DEFAULT RULE):
+"subject": "SHUTDOWN STATUS: ABORTED"
+
+```
+
+## DEFAULT Choice Rules:
+### Dev App Stop
+```JSON
+{
+  "dev_app_initial_state": "{% $states.input.initial_state %}",
+  "dev_db_initial_state": {
+    "empty": true
+  }
+}
+```
+
+### Test App Stop
+```JSON
+{
+  "test_app_initial_state": "{% $states.input.initial_state %}",
+  "test_db_initial_state": {
+    "empty": true
+  }
+}
+```
+
+### Pre-Production App Stop
+```JSON
+{
+  "preprod_app_initial_state": "{% $states.input.initial_state %}",
+  "preprod_db_initial_state": {
+    "empty": true
+  }
+}
+```
+
+### Dev DB Start
+```JSON
+{
+  "dev_db_initial_state": "{% $states.input.initial_state %}",
+  "dev_app_initial_state": {
+    "empty": true
+  }
+}
+```
+
+### Test DB Start
+```JSON
+{
+  "test_db_initial_state": "{% $states.input.initial_state %}",
+  "test_app_initial_state": {
+    "empty": true
+  }
+}
+```
+
+### Pre-Production DB Start
+```JSON
+{
+  "preprod_db_initial_state": "{% $states.input.initial_state %}",
+  "preprod_app_initial_state": {
+    "empty": true
+  }
+}
+```
+
