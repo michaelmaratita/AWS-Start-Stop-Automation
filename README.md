@@ -6,12 +6,12 @@ This process uses the following AWS Services:
 - 🕐 [Amazon EventBridge Scheduler](https://docs.aws.amazon.com/scheduler/latest/UserGuide/what-is-scheduler.html) - to schedule when startups and shutdowns will occur
 - 🧠[AWS Step Functions](https://docs.aws.amazon.com/step-functions/latest/dg/welcome.html) - to orchestrate Lambda functions to execute start/stop functions
 - 💻[AWS Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html) - the main function that will start/stop EC2 instances, disable associated CloudWatch alarms, and send SNS emails about the end state of the Step Function execution
-- 📬[Amazon CloudWatch Simple Notification Service (SNS)](https://docs.aws.amazon.com/sns/latest/dg/welcome.html) - the service to send notification emails 
+- 📬[Amazon Simple Notification Service (SNS)](https://docs.aws.amazon.com/sns/latest/dg/welcome.html) - the service to send notification emails 
 - 📖[AWS SDK for Python (Boto3)](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) - the SDK utilized to script the lambda_function.py and start_stop.py
-- ☁️[A]
+- ☁️[Amazon CloudWatch](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html) - used for logging Lambda function and State machine steps for troubleshooting any issues
 
 ## Table of Contents:
-- 🧠[Step Function States](./docs/step_function_steps.md)
+- 🧠[Step Function States](./docs/step_function_states.md)
 - 📃[State Machine JSON code](./docs/state_machine.md)
 - 💻[Lambda Start_Stop Logic](./docs/start_stop.md)
 - 💻[Lambda Start_Stop Code Breakdown](./docs/start_stop_code.md)
