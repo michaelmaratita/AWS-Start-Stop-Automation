@@ -1,6 +1,7 @@
 # Step Function States
 
 For more information for JSON Payload information for each state, check it out [here](./JSON_payload.md)
+
 For more information on the underlying Lambda Function, check it out [here](./start_stop.md)
 
 - [Go to Stop Steps](#stop)
