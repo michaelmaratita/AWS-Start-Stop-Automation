@@ -71,7 +71,7 @@ def get_validation_state(instances, action):
 
 def pre_check(event):
     instances = instance(server_lists()[event['phase_number']])
-    if len(instances.data) > 1:
+    if len(instances.data) > 0:
         return main(event, instances)
     return True, {"empty": True}
     
