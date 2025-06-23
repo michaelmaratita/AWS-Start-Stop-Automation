@@ -2,6 +2,8 @@
 
 For more information for JSON Payload information for each state, check it out [here](./JSON_payload.md)
 
+- [Go to Stop Steps](#stop)
+
 ## Start
 ![start](./img/parallel_start_arch.png)
 
@@ -180,4 +182,10 @@ Example of the DEV DB function passing "next_phase" == false
 - ✖️If the values do not meet the requirement, the email subject will be **START STATUS: ABORTED**
 
 See Example [Email Here 📧](./sns.md)
+
+---
+## Stop
+![stop](./img/parallel_stop_arch.png)
+
+
 
