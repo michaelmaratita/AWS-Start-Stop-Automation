@@ -1,38 +1,17 @@
-# AWS EC2 Start & Stop Automation
+# 🎯 AWS EC2 Start & Stop Automation
 
-- This process was established to meet customer demands for a phased approach to start and stop Amazon EC2 instances. The reasoning for the phased approach is to ensure EC2 instances are started or stopped in the correct order. If any of the phases fail, the lambda function will not proceed to the following phases. The purpose is to save costs when EC2 instances are not in use. 
+This project was accomplished to meet customer needs to automate starting and stopping servers. 
 
-- These processes leverage the use of [AWS Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html), [AWS EventBridge Scheduler](https://docs.aws.amazon.com/scheduler/latest/UserGuide/what-is-scheduler.html) and [AWS SDK for Python (Boto3)](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) to perform the automated start-ups and shutdowns of the EC2 instances. Within this repository, you will find the Python code for the lambda functions, as well as configuration checklists for utilizing this solution.
+This process uses the following:
+- 🕐 [AWS EventBridge Scheduler](https://docs.aws.amazon.com/scheduler/latest/UserGuide/what-is-scheduler.html) - to schedule when startups and shutdowns will occur
+- 🧠[AWS Step Functions](https://docs.aws.amazon.com/step-functions/latest/dg/welcome.html) - to orchestrate Lambda functions to execute start/stop functions
+- 📃[AWS Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html) - the main function that will start/stop EC2 instances, disable associated CloudWatch alarms, and send SNS emails about the end state of the Step Function execution
+- 📬[AWS Simple Notification Service (SNS)](https://docs.aws.amazon.com/sns/latest/dg/welcome.html) - the service to send notification emails 
+- 📖[AWS SDK for Python (Boto3)](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) - the SDK utilized to script the lambda_function.py and start_stop.py
 
-## Table of Contents
-- [How It Works](/source/docs/flowdiagram.md)
-  - [Start Up](/source/docs/flowdiagram.md#start-up)
-    - [Start Up Diagram](/source/images/lambda_startup_diagram.PNG)
-  - [Shutdown](/source/docs/flowdiagram.md#shutdown)
-    - [Shutdown Diagram](/source/images/lambda_shutdown_diagram1.png) 
-- [Lambda Function Code Breakdown]()
+## Table of Contents:
+- [JSON Payload for step functions](./docs/JSON_payload.md)
 
-## Configurations
-
-[<img align="center" src="/source/images/logos/CW_logo.PNG" width=4% height=4%>](how_to/cloudwatch/cw_config.md) 
-[**CloudWatch**](how_to/cloudwatch/cw_config.md)
-
-[<img align="center" src="/source/images/logos/eventbridge_logo.PNG" width=4% height=4%>](how_to/eventbridge/eventbridge_config.md) 
-[**EventBridge**](how_to/eventbridge/eventbridge_config.md)
-
-[<img align="center" src="/source/images/logos/IAM_logo.PNG" width=4% height=4%>](how_to/iam/iam_config.md)
-[**IAM**](how_to/iam/iam_config.md)
-
-[<img align="center" src="/source/images/logos/lambda_logo.PNG" width=4% height=4%>](how_to/lambda/lambda_config.md)
-[**Lambda**](how_to/lambda/lambda_config.md)
-
-[<img align="center" src="/source/images/logos/SNS_logo.PNG" width=4% height=4%>](how_to/sns/sns_config.md)
-[**SNS**](how_to/sns/sns_config.md)
-
-[<img align="center" src="/source/images/logos/Step_Functions_Logo.PNG" width=4% height=4%>](how_to/step_functions/step_functions_config.md)
-[**Step Functions**](how_to/step_functions/step_functions_config.md)
-
-## More Resources
-[<img src="https://img.shields.io/badge/AWS%20SDK-Boto3-blue">](https://github.com/boto/boto3#readme)
-[<img src="https://img.shields.io/badge/license-Apache%202.0-blue">](LICENSE)
-[<img src="https://img.shields.io/badge/build-diagrams-blue">](https://www.diagrams.net/)
+## Step Function Diagram
+![Stop State Machine](./docs/img/parallel_stop_arch.png)
+![Start State Machine](./docs/img/parallel_start_arch.png)
