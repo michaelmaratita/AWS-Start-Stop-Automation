@@ -1,12 +1,12 @@
 # Example State Executions
 ## Successful Start
-![start success](./docs/img/parallel_start_success.png)
+![start success](./img/parallel_start_success.png)
 
 ## Successful Stop
-![stop success](./docs/img/parallel_stop_success.png)
+![stop success](./img/parallel_stop_success.png)
 
 ## Failed Start
-![start fail](./docs/img/parallel_start_fail.png)
+![start fail](./img/parallel_start_fail.png)
 
 # Failed Stop
-![stop fail](./docs/img/parallel_stop_fail.png)
+![stop fail](./img/parallel_stop_fail.png)
