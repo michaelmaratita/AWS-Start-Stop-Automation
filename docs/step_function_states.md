@@ -262,7 +262,7 @@ Example JSON Payload Input:
    - **"dev_db_initial_state"** - this has the value **"empty": true** because the DEV App server starts will not be executed, but the final stage requires that variable to function properly
 
 ```
-Example of the DEV DB function passing "next_phase" == false
+Example of the DEV App function passing "next_phase" == false
 
 {
 "dev_app_initial_state": "{% $states.input.initial_state %}",
