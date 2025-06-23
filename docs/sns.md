@@ -32,21 +32,21 @@ Server: test14 (i-0a065baf2a9c1daf1) is stopped
 
 DEV DB SERVERS
 --------------------------
-Server: test2 (i-0a062c05709e20ad0) is running
-Server: test7 (i-04a73868ebee75b2a) is running
-Server: test8 (i-0adc7101a10fd2fe8) is running
+Server: test2 (i-0a062c05709e20ad0) is stopped
+Server: test7 (i-04a73868ebee75b2a) is stopped
+Server: test8 (i-0adc7101a10fd2fe8) is stopped
 
 TEST DB SERVERS
 --------------------------
-Server: test10 (i-0bad14933fffa49b9) is running
-Server: test3 (i-079d3e78afa290053) is running
-Server: test9 (i-082e1ef64192e11ad) is running
+Server: test10 (i-0bad14933fffa49b9) is stopped
+Server: test3 (i-079d3e78afa290053) is stopped
+Server: test9 (i-082e1ef64192e11ad) is stopped
 
 PREPROD DB SERVERS
 --------------------------
-Server: test15 (i-0a8a562c8d9691a33) is running
-Server: test16 (i-0b933f887b7084df2) is running
-Server: test20 (i-0d8dfc3f4a9b624d5) is running
+Server: test15 (i-0a8a562c8d9691a33) is stopped
+Server: test16 (i-0b933f887b7084df2) is stopped
+Server: test20 (i-0d8dfc3f4a9b624d5) is stopped
 
 -------------------------------------------------------
 All servers have been successfully started.
