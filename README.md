@@ -11,7 +11,7 @@ This process uses the following AWS Services:
 - ☁️[Amazon CloudWatch](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html) - used for logging Lambda function and State machine steps for troubleshooting any issues
 
 ## Table of Contents:
-- 🧠[Step Function States](./docs/step_function_steps.md)
+- 🧠[Step Function States](./docs/step_function_states.md)
 - 📃[State Machine JSON code](./docs/state_machine.md)
 - 💻[Lambda Start_Stop Logic](./docs/start_stop.md)
 - 💻[Lambda Start_Stop Code Breakdown](./docs/start_stop_code.md)
