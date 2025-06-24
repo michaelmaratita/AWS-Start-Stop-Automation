@@ -113,6 +113,7 @@ An email is sent via SNS with the status of the start operation:
 
 ---
 ## 🛑 Stop Workflow
+![start arch](./img/parallel_stop_arch.png)
 ### 1️⃣ Initial Parallel States
 Similar to the start process, a parallel state is used to simultaneously stop **Application EC2 instances** for:
 - Development
