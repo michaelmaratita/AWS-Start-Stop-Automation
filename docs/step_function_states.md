@@ -1,4 +1,4 @@
-# ♻️ Step Function States: Start & Stop EC2 Workflows
+# 📌 Step Function States: Start & Stop EC2 Workflows
 
 This is an overview of the **start** and **stop** lifecycle of EC2 instances across multiple environments (Development, Test, and Pre-Production).
 
