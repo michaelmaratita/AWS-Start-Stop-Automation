@@ -8,6 +8,7 @@
 
 ## `ec2_handler.py`
 ## 💻`class EC2Instance` - EC2 Lifecycle Management via AWS SDK (Boto3)
+[link to code](../python/start_stop/aws/ec2_handler.py)
 
 This module provides a reusable interface for starting, stopping, and validating the state of EC2 instances using AWS Step Functions and Lambda. It also integrates with CloudWatch logging and alarm management.
 
@@ -132,6 +133,7 @@ Useful for Step Function final payloads (e.g., email or output states).
 - [🔔 `alarm_handler.py`](#alarm_handlerpy)
 - [📝 `log_handler.py`](#log_handlerpy)
 ## 📬 `class SNSHandler` - Automated EC2 State Email Notifications via SNS
+[link to code](../python/start_stop/aws/sns_handler.py)
 
 This module handles email notifications via AWS SNS as part of an EC2 instance orchestration workflow. It builds dynamic email content based on the instance lifecycle status (start/stop) and sends alerts to administrators.
 
@@ -231,6 +233,7 @@ Used to customize log summaries and alert content.
 - [📬 `sns_handler.py`](#sns_handlerpy)
 - [📝 `log_handler.py`](#log_handlerpy)
 ## 🔔 `class AlarmManager` - CloudWatch Alarm Controller
+[link to code](../python/start_stop/aws/cloudwatch/alarm_handler.py)
 
 This class manages CloudWatch alarm states for EC2 instances during start/stop workflows. It dynamically enables or disables alarms based on instance names passed in via the Lambda/Step Function execution.
 
@@ -302,6 +305,7 @@ Called **after starting** EC2 instances to resume normal monitoring.
 - [📬 `sns_handler.py`](#sns_handlerpy)
 - [🔔 `alarm_handler.py`](#alarm_handlerpy)
 ## 📝 `class Logger` - EC2 Lifecyle Logging and SNS Formatting Utility
+[link to code](../python/start_stop/aws/cloudwatch/log_handler.py)
 
 The `Logger` class is a stateless utility providing consistent logging for EC2 start/stop workflows. It enhances visibility into what's happening at each step and is especially helpful for debugging state transitions in Step Functions or Lambda executions.
 
