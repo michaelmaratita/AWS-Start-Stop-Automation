@@ -3,6 +3,8 @@
 ## Table of Contents:
 - [Lambda Handler and Main](./start_stop.md)
 - [📬 `sns_handler.py`](#sns_handlerpy)
+- [🔔 `alarm_handler.py`](#alarm_handlerpy)
+- [📝 `log_handler.py`](#log_handlerpy)
 
 ## `ec2_handler.py`
 ## ☁️`class EC2Instance` - EC2 Lifecycle Management via AWS SDK (Boto3)
@@ -10,7 +12,7 @@
 This module provides a reusable interface for starting, stopping, and validating the state of EC2 instances using AWS Step Functions and Lambda. It also integrates with CloudWatch logging and alarm management.
 
 ### 📦 Module Dependencies
-- `boto3`: AWS SDK for Python
+- `boto3.client('ec2')`: AWS SDK client to interact with EC2 Instances.
 - `Logger`: Custom CloudWatch log handler
 - `AlarmManager`: Manages CloudWatch alarms
 - server_lists: Returns server name groups by phase/environment
@@ -110,7 +112,7 @@ Static method that:
   - `validation_dict()` results for startup workflows
 Useful for Step Function final payloads (e.g., email or output states).
 
-### 🧠 Design Considerations
+### 📌 Design Considerations
 - 💪 **Resilient Validation**: Includes retry loops and recursive checks for reliable automation.
 - 📝 **Logging Integration**: Uses Logger throughout for visibility via CloudWatch.
 - 📢 **Alarm Handling**: Enables/disables CloudWatch alarms to avoid false positives.
@@ -129,8 +131,8 @@ Useful for Step Function final payloads (e.g., email or output states).
 This module handles email notifications via AWS SNS as part of an EC2 instance orchestration workflow. It builds dynamic email content based on the instance lifecycle status (start/stop) and sends alerts to administrators.
 
 ### 📦 Dependencies
-- `boto3`: AWS SDK for SNS operations.
-- `Logger`: Custom CloudWatch logging formatter.
+- `boto3.client('sns')`: AWS SDK client for SNS operations.
+- `Logger`: Used to format email notifications.
 - `EC2Instance`: EC2 state retriever (used for end-state snapshots).
 - `server_lists`, `environments`: Define grouped instance lists and their phase (e.g., Dev, Test, PreProd).
 
@@ -205,15 +207,83 @@ Parses the email subject to determine:
 - **State**: `success` or `fail`
 Used to customize log summaries and alert content.
 
-### 🧠 Design Considerations
+### 📌 Design Considerations
 - ✅ **Flexible Topic Matching**: Finds SNS topic dynamically via name match
 - 📋 **Readable Logs**: Uses Logger to ensure log format consistency
 - 📣 **Environment-Aware**: Includes environment names (Dev/Test/PreProd) for easier identification
-- 🔁 **Reusable Output**: Pairs with Step Functions to automate entire lifecycle and reporting
+- ♻️ **Reusable Output**: Pairs with Step Functions to automate entire lifecycle and reporting
 
 ### 📁 Related Files
 - `start_stop/aws/cloudwatch/log_handler.py` – Formats instance output
-- `start_stop/aws/ec2_handler.py` – Manages EC2 start/stop logic
-- `SERVER_LIST.py` – Lists instance groups by environment/phase
+- `start_stop/aws/ec2_handler.py` – Used to get end state information
+- `SERVER_LIST.py` – Defines instance groups by environment
 
+---
+## `alarm_handler.py`
+## 🔔 `class AlarmManager` - CloudWatch Alarm Controller
 
+This class manages CloudWatch alarm states for EC2 instances during start/stop workflows. It dynamically enables or disables alarms based on instance names passed in via the Lambda/Step Function execution.
+
+### 📦 Dependencies
+- `boto3.client('cloudwatch')` - AWS SDK client to interact with CloudWatch alarms.
+
+### 🔧 `__init__(self, names)`
+
+Initializes the manager with a list of instance name strings that will be matched against CloudWatch alarm names.
+
+#### Parameters:
+- `names`: List[str] — from SERVER_LIST[event['phase_number']]
+
+### 🔍 `get_alarm_names(self)`
+
+Fetches all CloudWatch alarms, filters them to include only those whose names partially match the instance names provided.
+
+#### Returns:
+- `List[str]`: Filtered list of alarm names to be updated.
+
+#### Logic:
+```python
+python
+
+a['AlarmName'] for a in alarms
+if any(name in a['AlarmName'] for name in self.alarm_names)
+```
+This allows for flexible partial matches, e.g., `"web-dev"` in `"web-dev-cpu-util"`
+
+### 🚫 `disable_alarms(self)`
+
+Disables all alarm actions (e.g., InstanceStatus failure, High CPU Utilization, etc.) for matching CloudWatch alarms.
+
+#### Steps:
+1. Call `get_alarm_names()` to get relevant alarms.
+2. Log each one being disabled.
+3. Use `client.disable_alarm_actions()` to update AWS.
+
+Use Case:
+Called **before stopping** EC2 instances to prevent false positive alerts (e.g., CPU alarm triggering during shutdown).
+
+### ✅ enable_alarms(self)
+
+Re-enables previously disabled alarm actions for matching alarms.
+
+#### Steps:
+1. Call get_alarm_names().
+2. Log each one being enabled.
+3. Use client.enable_alarm_actions() to re-activate them.
+
+Use Case:
+Called **after starting** EC2 instances to resume normal monitoring.
+
+### 📌 Design Considerations
+- ✅ **Partial Matching** - No hardcoded alarm names
+- ➖ **Logic Separation** - Alarm control isolated from EC2 logic
+- 📋 **Logging** - Provides easy traceability for audit/debugging
+- ♻️ **Reusable** - Works with any resource-alarm convention where names align
+
+### 📂 Related Modules
+- `EC2Instance (ec2_handler.py)` — calls `AlarmManager` within `_start()` and `_stop()`.
+- `SERVER_LIST.py` — source of EC2 tag names passed into this manager.
+
+---
+## `log_handler.py`
+## 📝 `class Logger` - EC2/Alarm Lifecyle Logging Utility
