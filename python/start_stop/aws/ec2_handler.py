@@ -1,7 +1,7 @@
 import boto3
 from start_stop.aws.cloudwatch.log_handler import Logger
 from start_stop.aws.cloudwatch.alarm_handler import AlarmManager
-from start_stop.SERVER_LIST import server_lists
+from SERVER_LIST import server_lists
 from time import sleep
 
 
