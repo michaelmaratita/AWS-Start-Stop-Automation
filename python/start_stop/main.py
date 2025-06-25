@@ -1,5 +1,5 @@
 from SERVER_LIST import server_lists
-from start_stop.aws.sns_handler import EC2Instance
+from start_stop.aws.ec2_handler import EC2Instance
 
 
 def pre_check(event):
