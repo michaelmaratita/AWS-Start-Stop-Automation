@@ -1,4 +1,4 @@
-# 🥅 AWS EC2 Start & Stop Automation
+# 🚀 AWS EC2 Start & Stop Automation
 
 This project was developed to meet customer requirements for automating the start and stop processes of servers. It implements parallel execution to start or stop multiple environments simultaneously. If one environment fails during the process, built-in logic ensures that the corresponding parallel state halts without impacting the remaining environments. This design guarantees fault isolation—allowing failures in individual environments to be handled gracefully without affecting the overall operation.
 
@@ -13,8 +13,8 @@ This process uses the following AWS Services:
 ## Table of Contents:
 - 🧠[Step Function States](./docs/step_function_states.md)
 - 📃[State Machine JSON code](./docs/state_machine.md)
-- 💻[Lambda Start_Stop Logic](./docs/start_stop.md)
-- 💻[Lambda Start_Stop Code Breakdown](./docs/start_stop_code.md)
+- 🤔[Lambda Start_Stop Logic](./docs/start_stop.md)
+- 🔍[Lambda Start_Stop Code Breakdown](./docs/start_stop_code.md)
 - 📃[JSON Payload for Step Functions](./docs/JSON_payload.md)
 - ✔️[Example State Machine Execution](./docs/state_machine_execution.md)
 - ☁️[Example CloudWatch Logs](./docs/cloudwatch.md)
