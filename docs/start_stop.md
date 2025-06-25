@@ -47,38 +47,68 @@ def lambda_handler(event, context):
 
 This AWS Lambda function directs two primary workflows based on the event payload:
 
-1. **📧 Email Notification**  
-   If `event['send_mail']` is `true`, initializes `SNSHandler(event)` and triggers `sns.send_mail()`, returning a `200` status.
+**📧 Email Notification**  
+   If `event['send_mail']` is `true`, initializes `SNSHandler(event)`
+  - triggers `sns.send_mail()`
+  - returning a `200` status.
 
-2. **🔁 Initiating Pre-Checks for event['action']**  
+**🔁 Initiating Pre-Checks for event['action']**  
    If `event['next_phase']` is `true`, it initiates `pre_check(event)`
-   - `next_phase`: the upcoming workflow stage  
+   - `next_phase`: boolean value used for Step Function processing
    - `initial_state`: the initial state of the EC2 instances list 
-   Returns both along with status `200`.
+   - Returns both along with status `200`.
 
-3. **⏹️ Default**  
+**⏹️ Default**  
    If neither flag is set, simply echoes back `event['next_phase']` with status `200`.
 
 ---
 # 🚦 EC2 Phase-Based Orchestration with CloudWatch Integration
 
-This module enables safe, phased start/stop operations on EC2 instance groups using AWS CloudWatch alarms and SNS-backed notifications:
+![logic](./img/main_logic.png)
 
 ---
 
-## 🧭 Core Workflow
+##  Core Workflow
+```python
+python
+
+from SERVER_LIST import server_lists
+from start_stop.aws.ec2_handler import EC2Instance
+
+
+def pre_check(event):
+    instances = EC2Instance(server_lists()[event['phase_number']])
+    if len(instances.names) > 0:
+        return main(event, instances)
+    return True, {"empty": True}
+    
+def main(event, instances):
+    initial_state = instances.describe()
+    print(event['cw_log_phase'].upper())
+    instances.start_or_stop(event['action'])
+    passed = get_validation_state(instances, event['action'])
+    instances.instance_log_status(passed, event['action'])
+    return passed, initial_state
+
+def get_validation_state(instances, action):
+        if action == 'start':
+            return instances.validate_status(0, action)
+        else:
+            return instances.validation(0, action)
+```
+
 
 ### Phase selector (`pre_check`)
 
-- Picks the EC2 group for `event["phase_number"]` via `server_lists()`.
-- If no instances exist, returns `(True, {"empty": True})`, skipping actions.
+- Picks the server list from `server_lists()` using `event['phase_number']` as an index pointer.
+- If the list is empty, returns `(True, {"empty": True})`, skipping actions.
 - Otherwise, proceeds to `main()` for further processing.
 
 ### Action executor (`main`)
 
 - Captures current state with `instances.describe()`.
-- Logs the CloudWatch phase (`event["cw_log_phase"]`).
-- Starts or stops instances using `instances.start_or_stop(action)`.
+- Logs the CloudWatch phase (`event['cw_log_phase']`).
+- Starts or stops instances using `instances.start_or_stop(event['action'])`.
 - Validates status via `get_validation_state()`.
 - Logs final result through `instances.instance_log_status(...)`.
 - Returns `(passed, initial_state)`.
@@ -86,7 +116,7 @@ This module enables safe, phased start/stop operations on EC2 instance groups us
 ### Validation logic (`get_validation_state`)
 
 - Uses `validate_status()` for **“start”** actions to include system-level checks.
-- Uses `validation()` for other actions, polling EC2 instance status.
+- Uses `validation()` to poll basic instance states.
 
 ---
 
@@ -94,6 +124,18 @@ This module enables safe, phased start/stop operations on EC2 instance groups us
 
 - `describe()`: Builds a name → metadata map (ID/state/running flag).
 - `start_or_stop()`: Decides to start or stop based on the requested action.
+
+#### Example Dictionary from `describe()`
+```
+json
+{
+  "test1": {
+    "InstanceId": ""i-0bad14933fffa49b9",
+    "State": "running",
+    "is_running": True
+  }
+}
+```
 
 **Start path:**
 
@@ -104,8 +146,8 @@ This module enables safe, phased start/stop operations on EC2 instance groups us
 **Stop path:**
 
 - Logs current states.
+- Disables CloudWatch alarms via `AlarmManager`.
 - Stops running instances.
-- Disables associated alarms.
 
 **Validation methods (`validation`, `validate_status`):**
 
