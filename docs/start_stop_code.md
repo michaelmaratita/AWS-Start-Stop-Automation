@@ -1,13 +1,13 @@
 # Start/Stop Code Breakdown
 
 ## Table of Contents:
-- [Lambda Handler and Main](./start_stop.md)
+- [🚦 `lambda_function.py` and `main.py`](./start_stop.md)
 - [📬 `sns_handler.py`](#sns_handlerpy)
 - [🔔 `alarm_handler.py`](#alarm_handlerpy)
 - [📝 `log_handler.py`](#log_handlerpy)
 
 ## `ec2_handler.py`
-## ☁️`class EC2Instance` - EC2 Lifecycle Management via AWS SDK (Boto3)
+## 💻`class EC2Instance` - EC2 Lifecycle Management via AWS SDK (Boto3)
 
 This module provides a reusable interface for starting, stopping, and validating the state of EC2 instances using AWS Step Functions and Lambda. It also integrates with CloudWatch logging and alarm management.
 
@@ -126,6 +126,11 @@ Useful for Step Function final payloads (e.g., email or output states).
 
 ---
 ## `sns_handler.py`
+## Table of Contents:
+- [🚦 `lambda_function.py` and `main.py`](./start_stop.md)
+- [💻 `ec2_handler.py`](#ec2_handlerpy)
+- [🔔 `alarm_handler.py`](#alarm_handlerpy)
+- [📝 `log_handler.py`](#log_handlerpy)
 ## 📬 `class SNSHandler` - Automated EC2 State Email Notifications via SNS
 
 This module handles email notifications via AWS SNS as part of an EC2 instance orchestration workflow. It builds dynamic email content based on the instance lifecycle status (start/stop) and sends alerts to administrators.
@@ -220,6 +225,11 @@ Used to customize log summaries and alert content.
 
 ---
 ## `alarm_handler.py`
+## Table of Contents:
+- [🚦 `lambda_function.py` and `main.py`](./start_stop.md)
+- [💻 `ec2_handler.py`](#ec2_handlerpy) 
+- [📬 `sns_handler.py`](#sns_handlerpy)
+- [📝 `log_handler.py`](#log_handlerpy)
 ## 🔔 `class AlarmManager` - CloudWatch Alarm Controller
 
 This class manages CloudWatch alarm states for EC2 instances during start/stop workflows. It dynamically enables or disables alarms based on instance names passed in via the Lambda/Step Function execution.
@@ -286,4 +296,113 @@ Called **after starting** EC2 instances to resume normal monitoring.
 
 ---
 ## `log_handler.py`
-## 📝 `class Logger` - EC2/Alarm Lifecyle Logging Utility
+## Table of Contents:
+- [🚦 `lambda_function.py` and `main.py`](./start_stop.md)
+- [💻 `ec2_handler.py`](#ec2_handlerpy) 
+- [📬 `sns_handler.py`](#sns_handlerpy)
+- [🔔 `alarm_handler.py`](#alarm_handlerpy)
+## 📝 `class Logger` - EC2 Lifecyle Logging and SNS Formatting Utility
+
+The `Logger` class is a stateless utility providing consistent logging for EC2 start/stop workflows. It enhances visibility into what's happening at each step and is especially helpful for debugging state transitions in Step Functions or Lambda executions.
+
+This is a static-only utility class — no instantiation required. Every method is decorated with @staticmethod, meaning you call it like Logger.log_action(...) instead of creating a Logger() object.
+
+### `log_action(instances, list, action)`
+Logs (prints) which EC2 instances are being started or stopped.
+- `instances`: Dictionary with instance metadata.
+- `list`: List of instance IDs being operated on.
+- `action`: `"start"` or `"stop"`
+
+```
+Starting: test1 (i-xxxxx)
+...
+...
+Stopping: test1 (i-xxxxx)
+```
+
+### `log_abort(instance_list, action)`
+Logs a failure to complete a full start/stop operation.
+- `instance_list`: List of EC2 instance names or objects.
+- `action`: `"start"` or `"stop"`.
+**Returns**: A string message (not printed).
+
+```
+Not all servers have been started...ABORTING STARTUPS.
+Please validate server states in AWS Console.
+['test1', 'test2']
+```
+
+### `log_validation(instance_list)`
+Logs (prints) a message when validation checks begin.
+```
+Validating servers state: ['test1', 'test2']
+```
+
+### `log_intance_state(meta, i)`
+Logs the current state of a specific instance.
+- `meta`: Dictionary of instance metadata.
+- `i`: Name key (e.g., 'test1').
+**Returns**: A string message (not printed).
+
+```
+Server: test1 (i-xxxxxx) is running
+...
+...
+Server: test1 (i-xxxxxx) is stopped
+```
+
+### `log_max_validations(dictionary)`
+Called when the validation retry limit has been reached.
+- `dictionary`: Final state/status dict.
+```
+Please check the Instance Status and Systems Status for the following servers:
+
+{ ...detailed instance dict... }
+```
+
+### `intro(action, state)`
+Prints the summary result of an action:
+- `action`: `"start"` or `"stop"`
+- state: `"success"` or `"fail"`
+```
+All servers have been successfully started.
+```
+or
+```
+Failed to stop all servers
+```
+
+### `log_status(dictionary, action)`
+Top-level formatter for EC2 state summaries.
+- If `action == 'start'`: Calls `format_log_status_start()`.
+- If `action == 'stop'`: Calls `format_state_log()`.
+
+### `format_log_status_start(dictionary)`
+Formats full start logs including instance and system health checks.
+```
+test1 is in a running state.
+test1 (i-xxxxxx): Instance Status: passed | System Status: passed
+```
+
+### `format_start_log(dictionary, i)`
+Called by `format_log_status_start`. Generates formatted instance + system status strings.
+**Returns**
+Tuple of:
+- Instance status log (string) `Instance Status: passed`
+- System status log (string)   `System Status: passed`
+
+### `format_state_log(dictionary, i)`
+Returns a one-liner state summary for an instance.
+```
+test1 is in a stopped state
+```
+
+### 🧠 Design Rationale
+- **@staticmethod**	- enables global access
+- **Return vs. Print** - Returns strings that can be used for both CloudWatch and SNS/email usage, prints for CloudWatch only
+
+### 📁 Related Components
+- `EC2Instance`: Calls most `Logger` methods during start/stop.
+- `SNSHandler`: Uses `Logger.log_abort()` and `Logger.log_status()` for email body.
+
+[back to ⬆️](#startstop-code-breakdown)
