@@ -1,4 +1,8 @@
-# Code Breakdown
+# Start/Stop Code Breakdown
+
+## Table of Contents:
+- [Lambda Handler and Main](./start_stop.md)
+- [📬 `sns_handler.py](#-sns_handlerpy)
 
 ## `ec2_handler.py`
 ## ☁️`class EC2Instance` - EC2 Lifecycle Management via AWS SDK (Boto3)
@@ -106,8 +110,110 @@ Static method that:
   - `validation_dict()` results for startup workflows
 Useful for Step Function final payloads (e.g., email or output states).
 
+### 🧠 Design Considerations
+- 💪 **Resilient Validation**: Includes retry loops and recursive checks for reliable automation.
+- 📝 **Logging Integration**: Uses Logger throughout for visibility via CloudWatch.
+- 📢 **Alarm Handling**: Enables/disables CloudWatch alarms to avoid false positives.
+- 🔀 **Extensible**: Supports multi-environment (Dev/Test/PreProd) orchestration.
+
 ### 📁 Related Files
 - `start_stop/aws/cloudwatch/log_handler.py`: Handles log formatting/output
 - `start_stop/aws/cloudwatch/alarm_handler.py`: Enables/disables CloudWatch alarms
 - `SERVER_LIST.py`: Defines instance groups by environment
 - `main.py`: Entry point Lambda logic for Step Functions
+
+---
+## `sns_handler.py`
+## 📬 `class SNSHandler` - Automated EC2 State Email Notifications via SNS
+
+This module handles email notifications via AWS SNS as part of an EC2 instance orchestration workflow. It builds dynamic email content based on the instance lifecycle status (start/stop) and sends alerts to administrators.
+
+### 📦 Dependencies
+- `boto3`: AWS SDK for SNS operations.
+- `Logger`: Custom CloudWatch logging formatter.
+- `EC2Instance`: EC2 state retriever (used for end-state snapshots).
+- `server_lists`, `environments`: Define grouped instance lists and their phase (e.g., Dev, Test, PreProd).
+
+### 🔧 `__init__(self, data)`
+Initializes the handler using output from the Step Function.
+
+#### Parameters:
+- `data`: Dict payload passed from Step Functions, includes:
+- `subject`: The email subject line (e.g., `START STATUS: SUCCESS`)
+- `dev_db_initial_state`, `dev_app_initial_state`, etc.
+
+#### Logic:
+- Stores instance data in `self.initial`
+- Extracts phases from `environments()`
+
+### 🔑 `get_topic(self)`
+Dynamically finds the SNS topic ARN that includes `"mailme"` in its name.
+
+> 🔍 This avoids hardcoding ARNs, which makes the code environment-agnostic.
+
+### 📤 `send_mail(self)`
+Publishes a message to the SNS topic with:
+- The generated message body (`format_body()`)
+- A capitalized subject line
+Used at the final step of a Step Function state machine.
+
+### 🧱 `format_body(self)`
+Builds the full email message body, combining:
+1. A greeting and subject line
+2. Initial state output (format_initial_state)
+3. End state output (format_end_state)
+4. Optional abort message via Logger.log_abort()
+
+### 🟡 `format_initial_state(self)`
+Loops through the initial EC2 state data (`self.initial`) grouped by phase, and uses `Logger.log_ec2_state()` to format each instance’s state (running/stopped).
+
+```
+text
+
+SHUTDOWN STATUS: SUCCESS
+------------------------
+INITIAL STATE:
+
+DEV APP SERVERS
+--------------------------
+test1 is in a running state
+....
+```
+
+### 🔴 `format_end_state(self)`
+Shows post-action instance health using:
+- `EC2Instance.get_end_state()`: Fetches current EC2 state after action
+- `Logger.log_status()`: Formats output for each instance
+
+Also includes a summary header from Logger.intro().
+
+```
+text
+
+------------------------
+All Server have successfully stopped
+
+DEV APP SERVERS
+------------------------
+test1 is in a stopped state
+...
+```
+
+### ⚙️ `get_verb(self)`
+Parses the email subject to determine:
+- **Action**: `start` or `stop`
+- **State**: `success` or `fail`
+Used to customize log summaries and alert content.
+
+### 🧠 Design Considerations
+- ✅ **Flexible Topic Matching**: Finds SNS topic dynamically via name match
+- 📋 **Readable Logs**: Uses Logger to ensure log format consistency
+- 📣 **Environment-Aware**: Includes environment names (Dev/Test/PreProd) for easier identification
+- 🔁 **Reusable Output**: Pairs with Step Functions to automate entire lifecycle and reporting
+
+### 📁 Related Files
+- `start_stop/aws/cloudwatch/log_handler.py` – Formats instance output
+- `start_stop/aws/ec2_handler.py` – Manages EC2 start/stop logic
+- `SERVER_LIST.py` – Lists instance groups by environment/phase
+
+
