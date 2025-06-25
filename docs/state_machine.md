@@ -393,7 +393,7 @@
 ```
 
 ## Stop State Machine
-```JSON
+```
 {
   "Comment": "State Machine to Stop Lower Environments",
   "StartAt": "Stop Lower Environments",
