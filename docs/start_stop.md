@@ -3,10 +3,10 @@
 ```tree
 root/
 ├── lambda_function.py
+├── SERVER_LIST.py
 └── start_stop/
   ├── __init__.py
   ├── main.py
-  ├── SERVER_LIST.py
   └── aws/
     ├── __init__.py
     ├── ec2_handler.py
@@ -17,11 +17,7 @@ root/
       └── log_handler.py
 ```
 
-
-
-
-
-# AWS Lambda Workflow Handler 🚀
+## AWS Lambda Workflow Handler 
 ```python
 python
 
