@@ -1,4 +1,4 @@
-from start_stop.SERVER_LIST import server_lists
+from SERVER_LIST import server_lists
 from start_stop.aws.sns_handler import EC2Instance
 
 
