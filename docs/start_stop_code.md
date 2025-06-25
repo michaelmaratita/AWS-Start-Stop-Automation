@@ -2,7 +2,7 @@
 
 ## Table of Contents:
 - [Lambda Handler and Main](./start_stop.md)
-- [📬 `sns_handler.py](#-sns_handlerpy)
+- [📬 `sns_handler.py`](#sns_handlerpy)
 
 ## `ec2_handler.py`
 ## ☁️`class EC2Instance` - EC2 Lifecycle Management via AWS SDK (Boto3)
