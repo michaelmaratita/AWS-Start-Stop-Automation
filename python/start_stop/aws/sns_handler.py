@@ -1,7 +1,7 @@
 import boto3
-from main.aws.cloudwatch.log_handler import Logger
-from main.aws.ec2_handler import EC2Instance
-from main.SERVER_LIST import server_lists, environments
+from start_stop.aws.cloudwatch.log_handler import Logger
+from start_stop.aws.ec2_handler import EC2Instance
+from SERVER_LIST import server_lists, environments
 
 
 client = boto3.client('sns')
